@@ -275,6 +275,21 @@ async def cihaz_engelle(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 
 @admin_only
+
+@admin_only
+async def cihaz_sifirla(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    if not context.args:
+        await update.effective_message.reply_text("Kullanım: /cihaz_sifirla KEY")
+        return
+    key = context.args[0].strip()
+    con = connect()
+    cur = con.execute("DELETE FROM devices WHERE key = ?", (key,))
+    con.commit()
+    n = cur.rowcount
+    con.close()
+    await update.effective_message.reply_text(f"🗑 {key} için {n} cihaz kaydı silindi. Yeni cihaz bağlanabilir.")
+
+
 async def cihaz_ac(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await change_device_ban(update, context, 0)
 
