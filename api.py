@@ -29,6 +29,14 @@ def parse_date(value):
     except (ValueError, TypeError):
         return None
 
+@app.get("/")
+def root():
+    return jsonify({
+        "ok": True,
+        "service": "license-api",
+        "endpoints": ["/health", "POST /v1/validate"]
+    })
+
 @app.get("/health")
 def health():
     return jsonify({"ok": True, "service": "license-api"})
